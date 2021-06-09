@@ -1,10 +1,12 @@
 import { createStore, persist } from 'easy-peasy';
 import cart from './cart';
+import products from './products';
 
 export default createStore(
   persist(
     {
       cart,
+      products,
     },
     {
       storage: 'localStorage',
