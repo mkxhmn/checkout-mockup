@@ -39,7 +39,9 @@ export default {
     },
   ],
 
-  setCompanies: action((state, payload = []) => {
-    state.companies = payload;
+  company: {},
+
+  setCompany: action((state, payload = {}) => {
+    state.company = payload;
   }),
 };
