@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useStoreRehydrated } from 'easy-peasy';
 import { Container, Typography } from '@material-ui/core';
 
@@ -14,7 +14,7 @@ export function PageLoader({ children }) {
     );
   }
 
-  return <Fragment>{children}</Fragment>;
+  return <Container>{children}</Container>;
 }
 
 PageLoader.propTypes = {
