@@ -18,6 +18,6 @@ export default createStore(
   ),
   {
     name: 'checkout-store-mockup',
-    devTools: process.env.NODE_ENV === 'production',
+    devTools: process.env.NODE_ENV !== 'production',
   }
 );
