@@ -39,8 +39,10 @@ export function PricingCard(props) {
   const company = useStoreState(({ company }) => company.company);
 
   const isDiscountApplied = useMemo(
-    () => totalPricePerCartItem[props.tier]?.isDiscountApplied ?? false,
-    [totalPricePerCartItem]
+    () =>
+      company.discounts?.[props.tier]?.rules?.amount === 1 ||
+      Boolean(totalPricePerCartItem[props.tier]?.isDiscountApplied),
+    [totalPricePerCartItem, company]
   );
 
   /**
@@ -67,16 +69,47 @@ export function PricingCard(props) {
     [totalPerCartItem[props.tier]]
   );
 
+  const isDiscountIncluded = useMemo(
+    () => Boolean(company.discounts),
+    [company]
+  );
+
   const price = useMemo(() => {
-    if (!isDiscountApplied) {
+    if (
+      !isDiscountIncluded ||
+      company.discounts?.[props.tier]?.type !== 'drop'
+    ) {
+      return props.price;
+    }
+
+    if (
+      !isDiscountApplied &&
+      company.discounts?.[props.tier]?.rules?.amount !== 1
+    ) {
       return props.price;
     }
 
     // only update price for drop
-    return company.discounts?.[props.tier]?.type === 'drop'
-      ? company.discounts?.[props.tier]?.rules?.to
-      : props.price;
-  }, [isDiscountApplied, company]);
+    return company.discounts?.[props.tier]?.rules?.to;
+  }, [isDiscountIncluded, isDiscountApplied, company]);
+
+  const discountMessage = useMemo(() => {
+    if (!company.discounts) {
+      return '';
+    }
+
+    const { amount, to } = company.discounts?.[props.tier]?.rules ?? {};
+    switch (company.discounts?.[props.tier]?.type) {
+      case 'drop': {
+        return `purchase ${amount} or more to enjoy ${to} price drop`;
+      }
+      case 'deal': {
+        return `purchase ${amount} or more to enjoy ${amount} for ${to} deal`;
+      }
+      default:
+        return '';
+    }
+  }, [company]);
 
   return (
     <Card>
@@ -95,6 +128,7 @@ export function PricingCard(props) {
             </Icon>
           </Fade>
         </Box>
+        <Typography variant="overline">{discountMessage}</Typography>
         <Typography variant="subtitle1">{props.description}</Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
