@@ -1,4 +1,6 @@
 import { action, computed } from 'easy-peasy';
+import { priceDealCalculator } from '../../utility/priceDealCalculator';
+import { priceDropCalculator } from '../../utility/priceDropCalculator';
 
 export default {
   cartItem: [],
@@ -31,5 +33,61 @@ export default {
   isCartEmpty: computed(
     [(state) => state.cartItem],
     (cartItem) => cartItem.length === 0
+  ),
+
+  totalPricePerCartItem: computed(
+    [
+      (state) => state.totalPerCartItem,
+      (state, storeState) => storeState.company.company,
+      (state, storeState) => storeState.products,
+    ],
+    (totalPerCartItem, company, products) => {
+      const tiers = Object.keys(totalPerCartItem);
+
+      if (!tiers.length) {
+        return [];
+      }
+
+      /**
+       * totalPerCartItem[tier] is the amount(s) of item per tier in cart
+       */
+      if (!company.discounts) {
+        return tiers.map((tier) => ({
+          tier,
+          totalPrice: totalPerCartItem[tier] * products[tier].price,
+        }));
+      }
+
+      return tiers.map((tier) => {
+        switch (company.discounts?.[tier]?.type) {
+          case 'deal':
+            return {
+              tier,
+              totalPrice: priceDealCalculator({
+                amount: company.discounts[tier].rules.amount,
+                count: totalPerCartItem[tier],
+                to: company.discounts[tier].rules.to,
+                price: products[tier].price,
+              }),
+            };
+          case 'drop':
+            return {
+              tier,
+              totalPrice: priceDropCalculator({
+                amount: company.discounts[tier].rules.amount,
+                count: totalPerCartItem[tier],
+                to: company.discounts[tier].rules.to,
+                normalPrice: products[tier].price,
+                specialPrice: company.discounts[tier].rules.to,
+              }),
+            };
+          default:
+            return {
+              tier,
+              totalPrice: totalPerCartItem[tier] * products[tier].price,
+            };
+        }
+      });
+    }
   ),
 };
