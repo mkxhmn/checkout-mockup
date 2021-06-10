@@ -45,50 +45,62 @@ export default {
       const tiers = Object.keys(totalPerCartItem);
 
       if (!tiers.length) {
-        return [];
+        return {};
       }
 
       /**
        * totalPerCartItem[tier] is the amount(s) of item per tier in cart
        */
       if (!company.discounts) {
-        return tiers.map((tier) => ({
-          tier,
-          isDiscountApplied: false,
-          totalPrice: totalPerCartItem[tier] * products[tier].price,
-        }));
+        return tiers.reduce(
+          (acc, tier) => ({
+            ...acc,
+            [tier]: {
+              isDiscountApplied: false,
+              totalPrice: totalPerCartItem[tier] * products[tier].price,
+            },
+          }),
+          {}
+        );
       }
 
-      return tiers.map((tier) => {
+      return tiers.reduce((acc, tier) => {
         switch (company.discounts?.[tier]?.type) {
           case 'deal':
             return {
-              tier,
-              ...priceDealCalculator({
-                amount: company.discounts[tier].rules.amount,
-                count: totalPerCartItem[tier],
-                to: company.discounts[tier].rules.to,
-                price: products[tier].price,
-              }),
+              ...acc,
+              [tier]: {
+                ...priceDealCalculator({
+                  amount: company.discounts[tier].rules.amount,
+                  count: totalPerCartItem[tier],
+                  to: company.discounts[tier].rules.to,
+                  price: products[tier].price,
+                }),
+              },
             };
           case 'drop':
             return {
-              tier,
-              ...priceDropCalculator({
-                amount: company.discounts[tier].rules.amount,
-                count: totalPerCartItem[tier],
-                to: company.discounts[tier].rules.to,
-                normalPrice: products[tier].price,
-                specialPrice: company.discounts[tier].rules.to,
-              }),
+              ...acc,
+              [tier]: {
+                ...priceDropCalculator({
+                  amount: company.discounts[tier].rules.amount,
+                  count: totalPerCartItem[tier],
+                  to: company.discounts[tier].rules.to,
+                  normalPrice: products[tier].price,
+                  specialPrice: company.discounts[tier].rules.to,
+                }),
+              },
             };
           default:
             return {
-              tier,
-              totalPrice: totalPerCartItem[tier] * products[tier].price,
+              ...acc,
+              [tier]: {
+                isDiscountApplied: false,
+                totalPrice: totalPerCartItem[tier] * products[tier].price,
+              },
             };
         }
-      });
+      }, {});
     }
   ),
 };
