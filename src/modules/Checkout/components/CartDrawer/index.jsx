@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Divider,
   Drawer,
@@ -17,8 +18,8 @@ import { EmptyCart } from './EmptyCart';
 const useDrawerStyles = makeStyles((theme) => ({
   drawer: {
     width: theme.breakpoints.values.sm,
-    minHeight: '100%',
     position: 'relative',
+    height: '100vh',
 
     [theme.breakpoints.down('sm')]: {
       width: '100vw',
@@ -27,6 +28,9 @@ const useDrawerStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     alignItems: 'center',
+  },
+  totalPrice: {
+    textAlign: 'end',
   },
 }));
 
@@ -38,14 +42,29 @@ export function CartDrawer() {
   const products = useStoreState(({ products }) => products);
   const company = useStoreState(({ company }) => company.company);
   const isCartEmpty = useStoreState(({ cart }) => cart.isCartEmpty);
+  const totalPricePerCartItem = useStoreState(
+    ({ cart }) => cart.totalPricePerCartItem
+  );
+  const cartItem = useStoreState(({ cart }) => cart.cartItem);
 
-  const productsList = useMemo(
-    () =>
-      Object.entries(products).map(([tier, details]) => ({
+  const productsList = useMemo(() => {
+    const items = [...new Set(cartItem)];
+
+    return Object.entries(products)
+      .map(([tier, details]) => ({
         tier,
         ...details,
-      })),
-    [products]
+      }))
+      .filter(({ tier }) => items.includes(tier));
+  }, [cartItem, products]);
+
+  const totalPrice = useMemo(
+    () =>
+      Object.values(totalPricePerCartItem).reduce(
+        (acc, { totalPrice }) => acc + totalPrice,
+        0
+      ),
+    [totalPricePerCartItem]
   );
 
   function handleClose() {
@@ -66,20 +85,44 @@ export function CartDrawer() {
         {isCartEmpty ? (
           <EmptyCart />
         ) : (
-          <Grid container spacing={1}>
-            {productsList.map(({ tier, price, description }) => (
-              <Grid item xs={12} key={tier}>
-                <PricingCard
-                  disableElevation
-                  tier={tier}
-                  description={description}
-                  price={price}
-                />
-                <Divider />
-              </Grid>
-            ))}
-          </Grid>
-        )}{' '}
+          <Box
+            display="flex"
+            alignItems="space-between"
+            height="calc(100vh-48px)"
+            flexDirection="column"
+          >
+            <Grid container spacing={1}>
+              {productsList.map(({ tier, price, description }) => (
+                <Grid item xs={12} key={tier}>
+                  <PricingCard
+                    disableElevation
+                    tier={tier}
+                    description={description}
+                    price={price}
+                  />
+                  <Divider />
+                </Grid>
+              ))}
+            </Grid>
+            <Box display="flex" flexDirection="column">
+              <Box my={2}>
+                <Grid container>
+                  <Grid item xs>
+                    <Typography variant="h6">Total</Typography>
+                  </Grid>
+                  <Grid item xs>
+                    <Typography className={classes.totalPrice} variant="h6">
+                      {totalPrice}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Box>
+              <Button fullWidth variant="contained" color="primary">
+                Purchase
+              </Button>
+            </Box>
+          </Box>
+        )}
       </Container>
     </Drawer>
   );
