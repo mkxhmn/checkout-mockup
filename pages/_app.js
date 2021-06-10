@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../config/theme';
 import store from '../src/store';
 import { StoreProvider } from 'easy-peasy';
+import { PageLoader } from '../src/components/PageLoader';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -29,7 +30,9 @@ export default function MyApp(props) {
       <StoreProvider store={store}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Component {...pageProps} />
+          <PageLoader>
+            <Component {...pageProps} />
+          </PageLoader>
         </ThemeProvider>
       </StoreProvider>
     </React.Fragment>
