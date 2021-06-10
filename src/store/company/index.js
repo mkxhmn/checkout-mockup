@@ -21,6 +21,15 @@ export default {
       },
     },
     {
+      name: 'IGB Berhad',
+      discounts: {
+        premium: {
+          type: 'drop',
+          rules: { amount: 4, to: 379.99 },
+        },
+      },
+    },
+    {
       name: 'Mah Sing Group',
       discounts: {
         standard: {
