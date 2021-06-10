@@ -4,6 +4,10 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../config/theme';
+import store from '../src/store';
+import { StoreProvider } from 'easy-peasy';
+import { PageLoader } from '../src/components/PageLoader';
+import { TopBar } from '../src/components/TopBar';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -18,16 +22,21 @@ export default function MyApp(props) {
   return (
     <React.Fragment>
       <Head>
-        <title>My page</title>
+        <title>Checkout Mockup</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <StoreProvider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <TopBar />
+          <PageLoader>
+            <Component {...pageProps} />
+          </PageLoader>
+        </ThemeProvider>
+      </StoreProvider>
     </React.Fragment>
   );
 }

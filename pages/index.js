@@ -1,3 +1,3 @@
-export default () => {
-  return <div>hello</div>;
-};
+import Checkout from '../src/modules/Checkout';
+
+export default Checkout;
