@@ -4,7 +4,7 @@
  * @param {Number} count - current item count
  * @param {Number} to - deal
  * @param {Number} price
- * @returns {number}
+ * @returns {{totalPrice: Number, isDiscountApplied: boolean}}
  */
 export function priceDealCalculator({
   amount = 0,
@@ -13,8 +13,14 @@ export function priceDealCalculator({
   price = 0,
 }) {
   if (count < amount) {
-    return price;
+    return {
+      isDiscountApplied: false,
+      totalPrice: price,
+    };
   }
 
-  return (Math.floor(count / amount) + (count % amount)) * to * price;
+  return {
+    isDiscountApplied: true,
+    totalPrice: (Math.floor(count / amount) + (count % amount)) * to * price,
+  };
 }

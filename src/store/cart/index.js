@@ -54,6 +54,7 @@ export default {
       if (!company.discounts) {
         return tiers.map((tier) => ({
           tier,
+          isDiscountApplied: false,
           totalPrice: totalPerCartItem[tier] * products[tier].price,
         }));
       }
@@ -63,7 +64,7 @@ export default {
           case 'deal':
             return {
               tier,
-              totalPrice: priceDealCalculator({
+              ...priceDealCalculator({
                 amount: company.discounts[tier].rules.amount,
                 count: totalPerCartItem[tier],
                 to: company.discounts[tier].rules.to,
@@ -73,7 +74,7 @@ export default {
           case 'drop':
             return {
               tier,
-              totalPrice: priceDropCalculator({
+              ...priceDropCalculator({
                 amount: company.discounts[tier].rules.amount,
                 count: totalPerCartItem[tier],
                 to: company.discounts[tier].rules.to,

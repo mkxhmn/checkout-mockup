@@ -5,7 +5,7 @@
  * @param {Number} to
  * @param {Number} specialPrice
  * @param {Number} normalPrice
- * @returns {Number}
+ * @returns {{totalPrice: Number, isDiscountApplied: boolean}}
  */
 export function priceDropCalculator({
   amount = 0,
@@ -14,15 +14,15 @@ export function priceDropCalculator({
   specialPrice = 0,
   normalPrice = 0,
 }) {
-  console.log(
-    '👾 %c count ',
-    'background-color: #d73d32; color: white;',
-    count
-  );
-
   if (count < amount) {
-    return count * normalPrice;
+    return {
+      isDiscountApplied: false,
+      totalPrice: count * normalPrice,
+    };
   }
 
-  return count * specialPrice;
+  return {
+    isDiscountApplied: true,
+    totalPrice: count * specialPrice,
+  };
 }
