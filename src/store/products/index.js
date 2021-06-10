@@ -8,7 +8,7 @@ export default {
     name: 'ad',
     price: 322.99,
     description:
-      'Allows advertisers to use a company logo and use a longer presentation text',
+      'Allows you to use a company logo and use a longer presentation text',
   },
   premium: {
     name: 'ad',

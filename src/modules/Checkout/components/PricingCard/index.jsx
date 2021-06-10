@@ -112,7 +112,7 @@ export function PricingCard(props) {
   }, [company]);
 
   return (
-    <Card>
+    <Card elevation={props.disableElevation ? 0 : 1}>
       <CardContent>
         <Box>
           <Typography
@@ -155,6 +155,11 @@ export function PricingCard(props) {
 
 PricingCard.propTypes = {
   description: PropTypes.string,
+  disableElevation: PropTypes.bool,
   price: PropTypes.number,
   tier: PropTypes.string,
+};
+
+PricingCard.defaultProps = {
+  disableElevation: false,
 };
