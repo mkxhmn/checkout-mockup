@@ -7,8 +7,11 @@ import {
   Toolbar,
 } from '@material-ui/core';
 import { ShoppingCartOutlined } from '@material-ui/icons';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 import { CompanyMenu } from './CompanyMenu';
+import dynamic from 'next/dynamic';
+
+const Badge = dynamic(() => import('@material-ui/core/Badge'), { ssr: false });
 
 const useTopBarLayout = makeStyles(() => ({
   appBarLayout: {
@@ -20,6 +23,7 @@ const useTopBarLayout = makeStyles(() => ({
 export function TopBar() {
   const classes = useTopBarLayout();
   const showCart = useStoreActions(({ common }) => common.showCart);
+  const isCartEmpty = useStoreState(({ cart }) => cart.isCartEmpty);
 
   function handleShowCart() {
     showCart();
@@ -32,7 +36,9 @@ export function TopBar() {
           <Box>
             <CompanyMenu />
             <IconButton onClick={handleShowCart}>
-              <ShoppingCartOutlined />
+              <Badge color="secondary" variant="dot" invisible={isCartEmpty}>
+                <ShoppingCartOutlined />
+              </Badge>
             </IconButton>
           </Box>
         </Container>

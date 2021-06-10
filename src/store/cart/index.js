@@ -27,4 +27,9 @@ export default {
       {}
     );
   }),
+
+  isCartEmpty: computed(
+    [(state) => state.cartItem],
+    (cartItem) => cartItem.length === 0
+  ),
 };
