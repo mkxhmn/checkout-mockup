@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import { ShoppingCartOutlined } from '@material-ui/icons';
 import { useStoreActions } from 'easy-peasy';
+import { CompanyMenu } from './CompanyMenu';
 
 const useTopBarLayout = makeStyles(() => ({
   appBarLayout: {
@@ -29,6 +30,7 @@ export function TopBar() {
       <Toolbar disableGutters>
         <Container className={classes.appBarLayout}>
           <Box>
+            <CompanyMenu />
             <IconButton onClick={handleShowCart}>
               <ShoppingCartOutlined />
             </IconButton>
