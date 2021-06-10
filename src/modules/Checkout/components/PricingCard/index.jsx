@@ -13,6 +13,7 @@ import { Add, LocalOffer, RemoveOutlined } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useMemo } from 'react';
+import { formatPrice } from '../../../../utility/formatPrice';
 
 const useAdsStyles = makeStyles((theme) => ({
   cardActions: {
@@ -133,7 +134,7 @@ export function PricingCard(props) {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Typography component="span">
-          <strong>{price}</strong>
+          <strong>{formatPrice(price)}</strong>
         </Typography>
         <Box display="flex" alignItems="center">
           <Fade in={isShowRemoveButton} mountOnEnter unmountOnExit>

@@ -14,6 +14,7 @@ import { CloseOutlined } from '@material-ui/icons';
 import { PricingCard } from '../PricingCard';
 import { useMemo } from 'react';
 import { EmptyCart } from './EmptyCart';
+import { formatPrice } from '../../../../utility/formatPrice';
 
 const useDrawerStyles = makeStyles((theme) => ({
   drawer: {
@@ -112,7 +113,7 @@ export function CartDrawer() {
                   </Grid>
                   <Grid item xs>
                     <Typography className={classes.totalPrice} variant="h6">
-                      {totalPrice}
+                      {formatPrice(totalPrice)}
                     </Typography>
                   </Grid>
                 </Grid>
