@@ -7,8 +7,9 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
+import { Add, RemoveOutlined } from '@material-ui/icons';
 import * as PropTypes from 'prop-types';
+import { useStoreActions } from 'easy-peasy';
 
 const useAdsStyles = makeStyles((theme) => ({
   cardActions: {
@@ -19,6 +20,19 @@ const useAdsStyles = makeStyles((theme) => ({
 
 export function PricingCard(props) {
   const classes = useAdsStyles();
+
+  const addCartItem = useStoreActions(({ cart }) => cart.addCartItem);
+  const removeCartItem = useStoreActions(({ cart }) => cart.removeCartItem);
+
+  /**
+   * @param {String} tier
+   */
+  const handleAddCartItem = (tier) => () => {
+    addCartItem(tier);
+  };
+  const handleRemoveCartItem = (tier) => () => {
+    removeCartItem(tier);
+  };
 
   return (
     <Card>
@@ -31,7 +45,10 @@ export function PricingCard(props) {
           <strong>{props.price}</strong>
         </Typography>
         <Box>
-          <IconButton size="small">
+          <IconButton onClick={handleRemoveCartItem(props.tier)}>
+            <RemoveOutlined />
+          </IconButton>
+          <IconButton onClick={handleAddCartItem(props.tier)}>
             <Add />
           </IconButton>
         </Box>
