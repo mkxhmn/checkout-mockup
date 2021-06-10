@@ -3,7 +3,7 @@ import { Box, Divider, Typography } from '@material-ui/core';
 
 export function PageContainer(props) {
   return (
-    <Box mt={4}>
+    <Box>
       <Typography variant="h4">
         <strong>{props.title}</strong>
       </Typography>

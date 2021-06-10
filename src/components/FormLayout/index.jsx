@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from '@material-ui/core';
 
 export function FormLayout(props) {
   return (
-    <Box mt={4}>
+    <Box mt={2}>
       <Box mt={2}>
         <Grid container spacing={2}>
           <Grid item sm={4}>
