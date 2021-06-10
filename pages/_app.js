@@ -7,6 +7,7 @@ import theme from '../config/theme';
 import store from '../src/store';
 import { StoreProvider } from 'easy-peasy';
 import { PageLoader } from '../src/components/PageLoader';
+import { TopBar } from '../src/components/TopBar';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -30,6 +31,7 @@ export default function MyApp(props) {
       <StoreProvider store={store}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <TopBar />
           <PageLoader>
             <Component {...pageProps} />
           </PageLoader>

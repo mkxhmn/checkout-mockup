@@ -2,6 +2,7 @@ import { createStore, persist } from 'easy-peasy';
 import cart from './cart';
 import products from './products';
 import company from './company';
+import common from './common';
 
 export default createStore(
   persist(
@@ -9,6 +10,7 @@ export default createStore(
       cart,
       products,
       company,
+      common,
     },
     {
       storage: 'localStorage',
