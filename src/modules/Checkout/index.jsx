@@ -1,11 +1,10 @@
 import { Grid } from '@material-ui/core';
 import { useStoreState } from 'easy-peasy';
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { PricingCard } from './components/PricingCard';
 import { PageContainer } from '../../components/PageContainer';
 import { FormLayout } from '../../components/FormLayout';
 import { CartDrawer } from './components/CartDrawer';
-import { Fragment } from 'react';
 
 const Checkout = () => {
   const products = useStoreState(({ products }) => products);
