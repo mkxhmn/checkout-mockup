@@ -3,13 +3,15 @@ import {
   Card,
   CardActions,
   CardContent,
+  Fade,
   IconButton,
   makeStyles,
   Typography,
 } from '@material-ui/core';
 import { Add, RemoveOutlined } from '@material-ui/icons';
 import * as PropTypes from 'prop-types';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions, useStoreState } from 'easy-peasy';
+import { useMemo } from 'react';
 
 const useAdsStyles = makeStyles((theme) => ({
   cardActions: {
@@ -23,6 +25,7 @@ export function PricingCard(props) {
 
   const addCartItem = useStoreActions(({ cart }) => cart.addCartItem);
   const removeCartItem = useStoreActions(({ cart }) => cart.removeCartItem);
+  const totalPerCartItem = useStoreState(({ cart }) => cart.totalPerCartItem);
 
   /**
    * @param {String} tier
@@ -30,9 +33,23 @@ export function PricingCard(props) {
   const handleAddCartItem = (tier) => () => {
     addCartItem(tier);
   };
+
+  /**
+   * @param {String} tier
+   */
   const handleRemoveCartItem = (tier) => () => {
     removeCartItem(tier);
   };
+
+  const isShowRemoveButton = useMemo(
+    () => Boolean(totalPerCartItem[props.tier]),
+    [totalPerCartItem[props.tier]]
+  );
+
+  const total = useMemo(
+    () => totalPerCartItem[props.tier],
+    [totalPerCartItem[props.tier]]
+  );
 
   return (
     <Card>
@@ -44,10 +61,15 @@ export function PricingCard(props) {
         <Typography>
           <strong>{props.price}</strong>
         </Typography>
-        <Box>
-          <IconButton onClick={handleRemoveCartItem(props.tier)}>
-            <RemoveOutlined />
-          </IconButton>
+        <Box display="flex" alignItems="center">
+          <Fade in={isShowRemoveButton} mountOnEnter unmountOnExit>
+            <IconButton onClick={handleRemoveCartItem(props.tier)}>
+              <RemoveOutlined />
+            </IconButton>
+          </Fade>
+          <Fade in={isShowRemoveButton} mountOnEnter unmountOnExit>
+            <Typography>{total}</Typography>
+          </Fade>
           <IconButton onClick={handleAddCartItem(props.tier)}>
             <Add />
           </IconButton>
