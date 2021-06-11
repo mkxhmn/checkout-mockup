@@ -21,25 +21,24 @@ export function CompanyMenu() {
 
   return (
     <Fragment>
-      <ClickAwayListener onClickAway={handleClose}>
-        <IconButton
-          ref={anchorRef}
-          aria-controls="company-list"
-          aria-haspopup="true"
-          onClick={handleToggleMenu}
-        >
-          <SettingsOutlined />
-        </IconButton>
-      </ClickAwayListener>
-      <Popper
-        placement="bottom-end"
-        open={isOpenMenu}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        disablePortal
+      <IconButton
+        ref={anchorRef}
+        aria-controls="company-list"
+        aria-haspopup="true"
+        onClick={handleToggleMenu}
       >
-        <CompanyMenuList />
-      </Popper>
+        <SettingsOutlined />
+      </IconButton>
+      <ClickAwayListener onClickAway={handleClose}>
+        <Popper
+          placement="bottom-end"
+          open={isOpenMenu}
+          anchorEl={anchorRef.current}
+          role={undefined}
+        >
+          <CompanyMenuList handleClose={handleClose} />
+        </Popper>
+      </ClickAwayListener>
     </Fragment>
   );
 }
