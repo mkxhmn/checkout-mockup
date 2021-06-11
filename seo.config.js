@@ -19,7 +19,7 @@ export default {
     title,
     description,
     images,
-    site_name: 'SiteName',
+    site_name: title,
     profile: {
       firstName: 'mkxhmn',
     },
