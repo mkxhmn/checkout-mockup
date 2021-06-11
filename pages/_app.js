@@ -8,6 +8,7 @@ import store from '../src/store';
 import { StoreProvider } from 'easy-peasy';
 import { PageLoader } from '../src/components/PageLoader';
 import { TopBar } from '../src/components/TopBar';
+import { Footer } from '../src/components/Footer';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -35,6 +36,7 @@ export default function MyApp(props) {
           <PageLoader>
             <Component {...pageProps} />
           </PageLoader>
+          <Footer />
         </ThemeProvider>
       </StoreProvider>
     </React.Fragment>
