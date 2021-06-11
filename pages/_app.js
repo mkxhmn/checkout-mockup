@@ -1,3 +1,4 @@
+import SEO from '../seo.config';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
@@ -10,6 +11,7 @@ import { PageLoader } from '../src/components/PageLoader';
 import { TopBar } from '../src/components/TopBar';
 import { Footer } from '../src/components/Footer';
 import Favicon from '../public/static/favicon.ico';
+import { DefaultSeo } from 'next-seo';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -23,8 +25,8 @@ export default function MyApp(props) {
 
   return (
     <React.Fragment>
+      <DefaultSeo {...SEO} />
       <Head>
-        <title>Checkout</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
