@@ -129,7 +129,9 @@ export function PricingCard(props) {
             </Icon>
           </Fade>
         </Box>
-        <Typography variant="overline">{discountMessage}</Typography>
+        <Fade in={Boolean(discountMessage)} mountOnEnter unmountOnExit>
+          <Typography variant="overline">{discountMessage}</Typography>
+        </Fade>
         <Typography variant="subtitle1">{props.description}</Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
