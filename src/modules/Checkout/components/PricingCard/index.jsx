@@ -102,10 +102,10 @@ export function PricingCard(props) {
     const { amount, to } = company.discounts?.[props.tier]?.rules ?? {};
     switch (company.discounts?.[props.tier]?.type) {
       case 'drop': {
-        return `purchase ${amount} or more to enjoy ${to} price drop`;
+        return `🎉 purchase ${amount} or more to enjoy ${to} price drop`;
       }
       case 'deal': {
-        return `purchase ${amount} or more to enjoy ${amount} for ${to} deal`;
+        return `🎉 purchase ${amount} or more to enjoy ${amount} for ${to} deal`;
       }
       default:
         return '';
