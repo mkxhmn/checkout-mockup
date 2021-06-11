@@ -1,10 +1,15 @@
 import { Container, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 
-const useFooterStyles = makeStyles(() => ({
+const useFooterStyles = makeStyles((theme) => ({
   footer: {
     position: 'fixed',
     bottom: 0,
+
+    [theme.breakpoints.down('xs')]: {
+      position: 'unset',
+      marginTop: theme.spacing(2),
+    },
   },
 }));
 

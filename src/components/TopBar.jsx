@@ -13,10 +13,21 @@ import dynamic from 'next/dynamic';
 
 const Badge = dynamic(() => import('@material-ui/core/Badge'), { ssr: false });
 
-const useTopBarLayout = makeStyles(() => ({
+const useTopBarLayout = makeStyles((theme) => ({
   appBarLayout: {
     display: 'flex',
     justifyContent: 'flex-end',
+  },
+  buttonContainer: {
+    '& button': {
+      [theme.breakpoints.down('xs')]: {
+        boxShadow: theme.shadows[1],
+        background: theme.palette.grey[50],
+        '&:last-of-type': {
+          marginLeft: theme.spacing(1),
+        },
+      },
+    },
   },
 }));
 
@@ -33,7 +44,7 @@ export function TopBar() {
     <AppBar position="sticky" color="transparent" elevation={0}>
       <Toolbar disableGutters>
         <Container className={classes.appBarLayout}>
-          <Box>
+          <Box className={classes.buttonContainer}>
             <CompanyMenu />
             <IconButton onClick={handleShowCart}>
               <Badge color="secondary" variant="dot" invisible={isCartEmpty}>
