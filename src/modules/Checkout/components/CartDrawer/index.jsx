@@ -80,7 +80,7 @@ export function CartDrawer() {
             <CloseOutlined />
           </IconButton>
           <Typography component="div" variant="h6">
-            Cart {'- ' + company.name}
+            Cart {company?.name ? '- ' + company?.name : ''}
           </Typography>
         </Box>
         {isCartEmpty ? (

@@ -1,13 +1,15 @@
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { MenuItem, MenuList, Paper } from '@material-ui/core';
 
-export function CompanyMenuList() {
+export function CompanyMenuList({ handleClose }) {
   const companies = useStoreState(({ company }) => company.companies);
   const setCompany = useStoreActions(({ company }) => company.setCompany);
   const selectedCompany = useStoreState(({ company }) => company.company);
 
-  const handleSelectCompany = (company) => () => {
+  const handleSelectCompany = (company) => (event) => {
     setCompany(company);
+
+    handleClose(event);
   };
 
   return (

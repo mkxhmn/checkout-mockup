@@ -7,10 +7,10 @@ export function EmptyCart() {
       width="70%"
       display="flex"
       flexDirection="column"
-      height="100%"
       justifyContent="center"
       alignItems="center"
       margin="auto"
+      marginTop="30%"
     >
       <EmptyAsset />
       <Typography align="center">your cart is empty 🍃</Typography>
