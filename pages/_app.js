@@ -9,6 +9,7 @@ import { StoreProvider } from 'easy-peasy';
 import { PageLoader } from '../src/components/PageLoader';
 import { TopBar } from '../src/components/TopBar';
 import { Footer } from '../src/components/Footer';
+import Favicon from '../public/static/favicon.ico';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -23,11 +24,12 @@ export default function MyApp(props) {
   return (
     <React.Fragment>
       <Head>
-        <title>Checkout Mockup</title>
+        <title>Checkout</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <link rel="shortcut icon" href={Favicon} />
       </Head>
       <StoreProvider store={store}>
         <ThemeProvider theme={theme}>
